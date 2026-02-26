@@ -37,22 +37,64 @@ body {
   border-bottom: 2px solid #ccc;
 }
 
-.badge-low {
-  background: #ddd;
-  color: #333;
+/* =========================================
+   PRIORITY BADGES STYLING (UNIFORM DESIGN)
+   ========================================= */
+.priority-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
-.badge-medium {
-  background: #2ecc71;
-  color: #fff;
+/* Low Priority: Soft grey background, grey text, dark grey dot */
+.priority-low {
+  background-color: #f2f2f2;
+  color: #555555;
+}
+.priority-low .dot {
+  background-color: #999999;
 }
 
-.badge-high {
-  background: #ff5b5b;
-  color: #fff;
+/* Medium Priority: Soft green background, dark green text, bright green dot */
+.priority-medium {
+  background-color: #e6f4ea;
+  color: #2e7d32;
+}
+.priority-medium .dot {
+  background-color: #34c759;
 }
 
-.chart-placeholder {
+/* High Priority: Soft red background, dark red text, bright red dot */
+.priority-high {
+  background-color: #ffebee;
+  color: #d32f2f;
+  /* Border removed to match the solid background style of the others */
+  border: none; 
+}
+.priority-high .dot {
+  background-color: #ff3b30;
+}
+
+/* Small Colored Dots for the badges and reports table */
+.dot {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-red { background-color: #ff3b30; height: 12px; width: 12px; }
+.dot-grey { background-color: #999999; height: 12px; width: 12px; }
+.dot-green { background-color: #34c759; height: 12px; width: 12px; }
+.chart-placeholder 
+
+{
+
   height: 230px;
   background: #f2f2f2;
   border-radius: 20px;
@@ -90,23 +132,21 @@ body {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 30px;
-  /* FORCES PERFECT ALIGNMENT */
   display: flex;
   align-items: center; 
 }
 
 .sidebar-header img {
-  height: 70px; /* Slightly reduced so it balances better with the text */
+  height: 70px; 
   width: 70px; 
   object-fit: contain; 
-  /* Removed the negative margin so the HTML gap-3 class can do its job perfectly */
   margin-top: -19px
 }
 
 .sidebar-header span {
   line-height: 1; 
-  margin-top: -25px; /* Tiny adjustment to center the text visually with the logo */
-  font-size: 1.25rem; /* Ensures the text is bold and readable */
+  margin-top: -25px; 
+  font-size: 1.25rem; 
 }
 
 .sidebar-menu {
@@ -151,15 +191,14 @@ body {
 /* =========================================
    NOTIFICATIONS DROPDOWN STYLING
    ========================================= */
-
 .notification-menu {
-    width: 420px; /* Width matching the design */
-    border-radius: 35px; /* Matches the other cards */
+    width: 420px; 
+    border-radius: 35px; 
     border: none;
     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1) !important;
     padding: 30px;
-    margin-top: 25px !important; /* Distance from the bell icon */
-    transform: translateX(-20px); /* Adjusts positioning slightly left */
+    margin-top: 25px !important; 
+    transform: translateX(-20px); 
 }
 
 .notification-header h5 {
@@ -168,7 +207,7 @@ body {
 }
 
 .notification-header a {
-    color: #3b82f6; /* The blue link color */
+    color: #3b82f6; 
     font-size: 0.85rem;
     font-weight: 600;
 }
@@ -176,7 +215,7 @@ body {
 .notification-list {
     display: flex;
     flex-direction: column;
-    gap: 22px; /* Spacing between each notification */
+    gap: 22px; 
 }
 
 .notif-item {
@@ -205,7 +244,6 @@ body {
     margin-top: 4px;
 }
 
-/* Ensure the bell icon shows a pointer cursor */
 .bell-trigger {
     cursor: pointer;
     color: #555;
@@ -219,8 +257,6 @@ body {
 /* =========================================
    TICKETS PAGE STYLING
    ========================================= */
-
-/* The black-bordered filter bar */
 .filter-bar {
     border: 1px solid #111;
     background-color: transparent;
@@ -241,7 +277,6 @@ body {
     color: #111;
 }
 
-/* Make Sidebar links work cleanly */
 .sidebar-menu a {
     text-decoration: none;
     color: inherit;
@@ -250,10 +285,8 @@ body {
 }
 
 /* =========================================
-   REPORTS PAGE STYLING (NEW)
+   REPORTS PAGE STYLING
    ========================================= */
-
-/* Filter Controls */
 .reports-filter-container {
     display: flex;
     align-items: center;
@@ -284,7 +317,6 @@ body {
     background-color: transparent;
 }
 
-/* Reports Table specific tweaks */
 .reports-table th {
     border-bottom: 2px solid #ccc;
     padding-bottom: 15px;
@@ -292,22 +324,9 @@ body {
 
 .reports-table td {
     padding: 20px 0;
-    border-bottom: 0; /* Removing the bottom borders from the rows like in the image */
+    border-bottom: 0; 
 }
 
-/* Priority Dots for Reports Table */
-.dot {
-    height: 10px;
-    width: 10px;
-    border-radius: 50%;
-    display: inline-block;
-}
-
-.dot-red { background-color: #ff3b30; }
-.dot-grey { background-color: #999999; }
-.dot-green { background-color: #34c759; }
-
-/* Export Button */
 .btn-export {
     border: 1px solid #ccc;
     background-color: #fff;
@@ -323,7 +342,6 @@ body {
     border-color: #aaa;
 }
 
-/* Top Issues List */
 .top-issues-list {
     display: flex;
     flex-direction: column;
@@ -335,7 +353,6 @@ body {
 /* =========================================
    ACCOUNT MANAGEMENT PAGE STYLING
    ========================================= */
-
 .header-action-row {
     display: flex;
     justify-content: space-between;
@@ -357,7 +374,7 @@ body {
 }
 
 .btn-add-employee i {
-    color: #f88c0c; /* Orange plus icon */
+    color: #f88c0c; 
     font-size: 1.2rem;
 }
 
@@ -365,7 +382,6 @@ body {
     background-color: #e2e2e2;
 }
 
-/* The large white background card */
 .account-wrapper-card {
     background: #ffffff;
     border-radius: 35px;
@@ -374,7 +390,6 @@ body {
     min-height: 50vh;
 }
 
-/* Flexbox grid to center the 4 inner cards */
 .account-cards-grid {
     display: flex;
     flex-wrap: wrap;
@@ -382,7 +397,6 @@ body {
     justify-content: center;
 }
 
-/* The individual orange-bordered cards */
 .account-type-card {
     border: 2px solid #f88c0c;
     border-radius: 30px;
@@ -393,14 +407,14 @@ body {
     align-items: center;
     justify-content: center;
     gap: 20px;
-    box-shadow: 0 10px 25px rgba(248, 140, 12, 0.15); /* Soft orange shadow */
+    box-shadow: 0 10px 25px rgba(248, 140, 12, 0.15); 
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     background-color: #fff;
 }
 
 .account-type-card:hover {
-    transform: translateY(-5px); /* Pops up slightly when hovered */
+    transform: translateY(-5px); 
     box-shadow: 0 15px 35px rgba(248, 140, 12, 0.25);
 }
 
@@ -416,22 +430,19 @@ body {
     font-weight: 500;
 }
 
-/* Normalize icons to match image size */
 .account-icon {
-  font-size: 80px;      /* same height as logos */
+  font-size: 80px;      
   line-height: 1;
 }
 
-/* Distinct colors for the icons */
 .icon-client {
-  color: #00985f; /* Green for Outside Client */
+  color: #00985f; 
 }
 
 .icon-internal {
-  color: #92d050; /* Light green for Internal */
+  color: #92d050; 
 }
 
-/* Ensure perfect alignment between icons and images */
 .account-type-card i,
 .account-type-card img {
   display: block;
@@ -440,7 +451,6 @@ body {
 /* =========================================
    ACCOUNT LIST VIEW STYLING
    ========================================= */
-
 .back-btn {
     cursor: pointer;
     transition: color 0.2s;
@@ -451,13 +461,11 @@ body {
     color: #f88c0c;
 }
 
-/* Icon next to the title */
 .account-list-icon {
     font-size: 55px;
     line-height: 1;
 }
 
-/* Search Bar */
 .search-input-wrapper {
     display: flex;
     align-items: center;
@@ -477,7 +485,6 @@ body {
     background: transparent;
 }
 
-/* Table styling */
 .account-list-table th {
     color: #111;
     font-weight: 500;
@@ -491,7 +498,6 @@ body {
     font-weight: 400;
 }
 
-/* 3-dots action menu */
 .dropdown-action i {
     cursor: pointer;
     font-size: 1.2rem;

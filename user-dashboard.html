@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>User Service Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="user-style.css">
+</head>
+<body>
+
+  <nav class="user-navbar">
+    <div class="brand-section">
+      <img src="img/logo1.png" alt="Eagle Eye Logo">
+      <h4>EAGLE EYE SERVICE PORTAL</h4>
+    </div>
+
+    <div class="nav-links-container">
+      <div class="nav-link-custom active" id="nav-home" onclick="switchUserView('home-view', 'nav-home')">
+        <i class="bi bi-house"></i> Home
+      </div>
+      
+      <div class="nav-link-custom" id="nav-tickets" onclick="switchUserView('tickets-view', 'nav-tickets')">
+        <i class="bi bi-ticket-detailed"></i> Tickets
+      </div>
+
+      <div class="dropdown">
+        <div class="nav-link-custom" id="nav-profile" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-person"></i> Profile
+        </div>
+        
+        <div class="dropdown-menu dropdown-menu-end profile-dropdown-menu">
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <div class="profile-avatar">EM</div>
+            <div>
+              <h4 class="profile-name">Elroi F. Mineque</h4>
+              <p class="profile-email">elroimineque@eagleeyecollect.com</p>
+            </div>
+          </div>
+          
+          <div class="info-section-title">
+            <i class="bi bi-person-fill"></i> Personal Information
+          </div>
+          <div class="info-row"><strong>Employee ID:</strong> EE-2026-001</div>
+          <div class="info-row"><strong>Department:</strong> Marketing</div>
+          <div class="info-row"><strong>Contact Number:</strong> 09813330744</div>
+        </div>
+      </div>
+
+      <a href="index.html" class="btn-logout">
+        <i class="bi bi-box-arrow-right"></i> Logout
+      </a>
+    </div>
+  </nav>
+
+  <main class="container py-4">
+
+    <div id="home-view" class="view-section">
+      <div class="home-header">
+        <h1>Your Service Requests</h1>
+        <p>Track your Service Request Status in Real Time</p>
+      </div>
+
+      <div class="mb-5">
+        <h6 class="fw-bold mb-3 ms-2" style="font-size: 1.1rem;">Filter By Service:</h6>
+        <select class="form-select service-filter">
+          <option value="all">All Services</option>
+          <option value="telecom">Telecommunication</option>
+          <option value="it">IT Support</option>
+        </select>
+      </div>
+
+      <div class="row g-5 justify-content-center">
+        <div class="col-md-4">
+          <div class="stat-card">
+            <h2 class="text-red">0</h2>
+            <div class="stat-label">Total Requests</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat-card">
+            <h2 class="text-yellow">0</h2>
+            <div class="stat-label">Pending</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat-card">
+            <h2 class="text-green">0</h2>
+            <div class="stat-label">Completed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="tickets-view" class="view-section d-none">
+      
+      <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+        <h3 class="fw-bold mb-0">Ticket Requests</h3>
+        <button class="btn-create-ticket" data-bs-toggle="modal" data-bs-target="#createTicketModal">
+          <i class="bi bi-plus"></i> Create ticket
+        </button>
+      </div>
+
+      <div class="ticket-filter-bar">
+        <div class="d-flex align-items-center gap-2 fw-bold" style="cursor: pointer;">
+          All Tickets <i class="bi bi-chevron-down" style="font-size: 0.8rem;"></i>
+        </div>
+        <div class="d-flex align-items-center gap-2 fw-bold" style="cursor: pointer;">
+          Category <i class="bi bi-chevron-down" style="font-size: 0.8rem;"></i>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table custom-table align-middle mt-3">
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Category</th>
+              <th>Remarks</th>
+              <th>Assigned to</th>
+              <th>Status</th>
+              <th>Last Updated</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="fw-bold text-warning">#1008</td>
+              <td>Peripheral Device Issue</td>
+              <td>My headset isn't working.</td>
+              <td>Johanna</td>
+              <td>New</td>
+              <td class="text-muted">9 mins ago</td>
+            </tr>
+            <tr>
+              <td class="fw-bold text-warning">#1007</td>
+              <td>System Issues</td>
+              <td>Locked Account AFC</td>
+              <td>Johanna</td>
+              <td>New</td>
+              <td class="text-muted">30 mins ago</td>
+            </tr>
+            <tr>
+              <td class="fw-bold text-warning">#1006</td>
+              <td>System Issues</td>
+              <td>Password reset request</td>
+              <td>Ervin</td>
+              <td>Pending</td>
+              <td class="text-muted">15 hours ago</td>
+            </tr>
+            <tr>
+              <td class="fw-bold text-warning">#1005</td>
+              <td>Software / Application Issues</td>
+              <td>Website form submission not working</td>
+              <td>Ervin</td>
+              <td>Resolved</td>
+              <td class="text-muted">20 hours ago</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <div class="modal fade create-ticket-modal" id="createTicketModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          
+          <div class="modal-body p-3">
+            
+            <div class="d-flex justify-content-center align-items-center mb-3 position-relative">
+              <h3 class="modal-title fw-bold mb-0">Create Ticket</h3>
+              <i class="bi bi-info-circle info-icon position-absolute end-0 me-2"></i>
+            </div>
+
+            <form onsubmit="event.preventDefault(); $('#createTicketModal').modal('hide'); alert('Ticket Submitted!');">
+                
+                <select class="form-select category-select mb-3" required>
+                  <option value="" selected disabled hidden>Select Category</option>
+                  <option value="Peripheral Device Issues">Peripheral Device Issues</option>
+                  <option value="Hardware Issues">Hardware Issues</option>
+                  <option value="System Issues">System Issues</option>
+                  <option value="Software / Application Issues">Software / Application Issues</option>
+                  <option value="Network / Connectivity Issues">Network / Connectivity Issues</option>
+                </select>
+
+                <div class="remarks-box mb-3">
+                  <p class="text-muted mb-2">Remarks (Optional)</p>
+                  
+                  <div class="d-flex flex-wrap">
+                    <div class="remark-pill"><i class="bi bi-x"></i> Computer not turning on</div>
+                    <div class="remark-pill"><i class="bi bi-x"></i> Headset not working</div>
+                    <div class="remark-pill"><i class="bi bi-x"></i> Monitor not displaying</div>
+                  </div>
+                </div>
+
+                <div class="upload-box mb-4">
+                  <i class="bi bi-paperclip fs-5"></i>
+                  <span>Upload Image (Optional)</span>
+                </div>
+
+                <div class="text-center pb-2">
+                  <button type="submit" class="btn-submit-ticket">
+                    Submit
+                  </button>
+                </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main> 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  /* =========================================
+     VIEW SWITCHING LOGIC
+     ========================================= */
+  function switchUserView(viewId, navId) {
+    document.getElementById('home-view').classList.add('d-none');
+    document.getElementById('tickets-view').classList.add('d-none');
+    
+    document.getElementById(viewId).classList.remove('d-none');
+
+    document.getElementById('nav-home').classList.remove('active');
+    document.getElementById('nav-tickets').classList.remove('active');
+    
+    document.getElementById(navId).classList.add('active');
+  }
+</script>
+
+</body>
+</html>
