@@ -1,0 +1,174 @@
+/* Custom Brand Colors and Styles */
+:root {
+    --brand-orange: #f88c0c;
+    --brand-orange-hover: #e07b09;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6; 
+    overflow-x: hidden;
+}
+
+/* Container Card Styling */
+.main-container-card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    max-width: 1000px; 
+    width: 100%;
+    height: 500px; /* Fixed height */
+    position: relative; /* CRITICAL: Allows absolute positioning inside */
+    overflow: hidden; 
+}
+
+/* Base style for both form sections */
+.form-panel {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 2rem;
+    transition: all 0.6s ease-in-out; /* Smooth transition */
+}
+
+/* Login panel starts on the right side */
+.login-panel {
+    left: 50%;
+    z-index: 2;
+    opacity: 1;
+}
+
+/* Register panel starts on the left side (hidden initially) */
+.register-panel {
+    left: 0;
+    z-index: 1;
+    opacity: 0;
+}
+
+/* The Sliding Image Overlay */
+.image-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 100; /* Stays on top of the forms */
+    transition: transform 0.6s ease-in-out; /* Smooth sliding */
+    overflow: hidden;
+}
+
+/* =========================================
+   ANIMATION STATES (Triggered by JS toggle)
+   ========================================= */
+
+/* When 'slide-active' is applied to the main container: */
+.main-container-card.slide-active .image-panel {
+    transform: translateX(100%); /* Move image to the right */
+}
+
+.main-container-card.slide-active .login-panel {
+    opacity: 0; /* Hide Login */
+    z-index: 1;
+}
+
+.main-container-card.slide-active .register-panel {
+    opacity: 1; /* Show Register */
+    z-index: 2;
+}
+
+/* =========================================
+   FORM ELEMENTS & TYPOGRAPHY
+   ========================================= */
+
+.form-container {
+    width: 100%;
+    max-width: 380px;
+}
+
+.btn-brand {
+    background-color: var(--brand-orange);
+    color: white;
+    font-weight: 500;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    width: 100%;
+    transition: background-color 0.3s ease; 
+}
+
+.btn-brand:hover {
+    background-color: var(--brand-orange-hover);
+    color: white;
+}
+
+.form-control {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    padding: 0.375rem 0.75rem;
+}
+
+.form-control:hover {
+    border-color: var(--brand-orange);
+}
+
+.form-control:focus {
+    border-color: var(--brand-orange);
+    box-shadow: 0 0 0 0.25rem rgba(248, 140, 12, 0.25);
+}
+
+.input-group-text {
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.page-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.brand-link {
+    color: #17a2b8;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.brand-link:hover {
+    color: var(--brand-orange);
+    text-decoration: underline;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    display: none; 
+    margin-top: 5px;
+}
+
+.error-message i {
+    margin-right: 5px;
+}
+
+.form-container .form-label {
+    margin-bottom: 0.25rem;
+    font-size: 0.85rem; 
+}
+
+.form-container .mb-3 {
+    margin-bottom: 0.6rem !important; 
+}
+
+.form-container .mb-4 {
+    margin-bottom: 0.8rem !important; 
+}
+
+/* Make it responsive for mobile (stack forms, hide image) */
+@media (max-width: 768px) {
+    .form-panel {
+        width: 100%;
+        left: 0;
+    }
+    .login-panel { left: 0; }
+}

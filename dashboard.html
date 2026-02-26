@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>IT Support Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css">
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    if (localStorage.getItem("sidebarState") === "open") {
+      let style = document.createElement('style');
+      style.id = 'sidebar-freeze';
+      style.innerHTML = '.sidebar{left:0 !important; transition:none !important;} .main-content{margin-left:260px !important; transition:none !important;}';
+      document.head.appendChild(style);
+    }
+  </script>
+</head>
+<body>
+
+<div class="layout">
+
+  <aside id="sidebar" class="sidebar">
+     <div class="sidebar-header d-flex justify-content-between align-items-center w-100 pe-3">
+      <div class="d-flex align-items-center gap-1">
+        <img src="img/logo1.png" alt="Eagle Eye Logo">
+        <span>EE IT Support</span>
+      </div>
+    </div>
+
+    <ul class="sidebar-menu mt-4">
+      <li id="nav-dashboard" class="active">
+        <a href="#" onclick="switchAppView('dashboard-view', 'nav-dashboard')" class="text-decoration-none text-reset d-flex align-items-center gap-3">
+          <i class="bi bi-grid fs-5"></i> Dashboard
+        </a>
+      </li>
+      <li id="nav-tickets">
+        <a href="#" onclick="switchAppView('tickets-view', 'nav-tickets')" class="text-decoration-none text-reset d-flex align-items-center gap-3">
+          <i class="bi bi-ticket-detailed fs-5"></i> Tickets Requests
+        </a>
+      </li>
+      <li id="nav-reports">
+        <a href="#" onclick="switchAppView('reports-view', 'nav-reports')" class="text-decoration-none text-reset d-flex align-items-center gap-3">
+          <i class="bi bi-bar-chart fs-5"></i> Reports
+        </a>
+      </li>
+      <li id="nav-account">
+        <a href="#" onclick="switchAppView('account-view', 'nav-account')" class="text-decoration-none text-reset d-flex align-items-center gap-3">
+          <i class="bi bi-person fs-5"></i> Account Management
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <h2>20</h2>
+      <small>Tickets Requests</small>
+    </div>
+  </aside>
+
+  <main id="mainContent" class="main-content">
+
+    <nav class="navbar d-flex justify-content-between border-bottom border-light">
+      <i id="toggleSidebar" class="bi bi-list fs-3" role="button" style="cursor: pointer; color: #000000;"></i>
+
+      <div class="d-flex align-items-center gap-3">
+        <i class="bi bi-search fs-5 me-2" style="cursor: pointer; color: #111;"></i>
+        
+        <div class="dropdown">
+          <i class="bi bi-bell fs-5 bell-trigger" id="notifDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
+          <div class="dropdown-menu dropdown-menu-end notification-menu" aria-labelledby="notifDropdown">
+            <div class="d-flex justify-content-between align-items-center mb-4 notification-header">
+              <h5 class="mb-0 fw-bold">Notifications</h5>
+              <a href="#" class="text-decoration-none">Mark all as read</a>
+            </div>
+            <div class="notification-list">
+              <div class="notif-item">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div><span class="fw-bold notif-user">Juan Dela Cruz</span> <span class="notif-action">new ticket</span></div>
+                  <span class="notif-time">9 mins ago</span>
+                </div>
+                <div class="notif-category">Peripheral Device Issues</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="dropdown">
+          <div class="d-flex align-items-center gap-2" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+            <div class="rounded-circle text-white px-3 py-2 fw-bold" style="background-color: #f88c0c;">IT</div>
+            <strong>Ervin</strong>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end border-0 shadow mt-3" style="border-radius: 12px; min-width: 150px;">
+            <li>
+              <a class="dropdown-item text-danger fw-bold py-2" href="index.html">
+                <i class="bi bi-box-arrow-right me-2"></i> Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+
+
+    <div id="dashboard-view" class="container-fluid px-4 mt-4 view-section">
+      <h3 class="mb-4 fw-bold">Dashboard</h3>
+      <div class="row g-4 mb-4">
+        <div class="col-md-3"><div class="card-stat bg-white"><span>New Tickets</span><h2>18</h2></div></div>
+        <div class="col-md-3"><div class="card-stat bg-white"><span>Pending Tickets</span><h2>6</h2></div></div>
+        <div class="col-md-3"><div class="card-stat bg-white"><span>Resolved Tickets</span><h2>36</h2></div></div>
+        <div class="col-md-3"><div class="card-stat bg-white"><span>Overdue</span><h2>3</h2></div></div>
+      </div>
+      
+      <div class="row g-4">
+        <div class="col-lg-8">
+          <div class="dashboard-card">
+            <h5 class="fw-bold mb-3">Recent Tickets</h5>
+            <table class="table custom-table table-borderless align-middle">
+              <thead><tr><th>Ticket ID</th><th>Requester</th><th>Category</th><th>Priority</th><th>Status</th><th>Assigned To</th><th>Last Updated</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td class="ticket-id">#1008</td><td>Juan Dela Cruz</td><td>Peripheral Device Issues</td>
+                  <td><span class="priority-badge priority-low">Low</span></td><td>New</td><td>Johanna</td><td class="time-muted">9 mins ago</td>
+                </tr>
+                <tr>
+                  <td class="ticket-id">#1004</td><td>Glaiza</td><td>System Issues</td>
+                  <td><span class="priority-badge priority-high"><span class="dot"></span>High</span></td><td>New</td><td>Johanna</td><td class="time-muted">30 mins ago</td>
+                </tr>
+                <tr>
+                  <td class="ticket-id">#1003</td><td>Glaiza</td><td>System Issues</td>
+                  <td><span class="priority-badge priority-medium">Medium</span></td><td>Pending</td><td>Ervin</td><td class="time-muted">15 hours ago</td>
+                </tr>
+                <tr>
+                  <td class="ticket-id">#1002</td><td>Princes</td><td>System Issues</td>
+                  <td><span class="priority-badge priority-high"><span class="dot"></span>High</span></td><td>Resolved</td><td>Johanna</td><td class="time-muted">20 hours ago</td>
+                </tr>
+                <tr>
+                  <td class="ticket-id">#1001</td><td>Honey</td><td>System Issues</td>
+                  <td><span class="priority-badge priority-high"><span class="dot"></span>High</span></td><td>Resolved</td><td>Ervin</td><td class="time-muted">23 hours ago</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <div class="col-lg-4 d-flex flex-column gap-4">
+          <div class="dashboard-card pt-4 pb-4">
+            <h6 class="fw-bold mb-4 text-center">Tickets by Status</h6>
+            <div class="chart-container" style="height: 220px;">
+              <canvas id="statusChart"></canvas>
+            </div>
+          </div>
+          <div class="dashboard-card pt-4 pb-4">
+            <h6 class="fw-bold mb-4 text-center">Tickets by Priority</h6>
+            <div class="chart-container" style="height: 220px;">
+              <canvas id="priorityChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+
+
+    <div id="tickets-view" class="container-fluid px-5 mt-4 view-section d-none">
+      <h3 class="mb-4 section-title" style="margin-top: 10px;">Ticket Requests</h3>
+      <div class="filter-bar">
+        <div class="filter-item">All Tickets <i class="bi bi-chevron-down mt-1" style="font-size: 0.8rem;"></i></div>
+        <div class="filter-item">All Priorities <i class="bi bi-chevron-down mt-1" style="font-size: 0.8rem;"></i></div>
+        <div class="filter-item">Category <i class="bi bi-chevron-down mt-1" style="font-size: 0.8rem;"></i></div>
+      </div>
+      <div class="table-responsive">
+        <table class="table custom-table table-borderless align-middle">
+          <thead><tr><th>Ticket ID</th><th>Requester</th><th>Category</th><th>Remarks</th><th>Assigned to</th><th>Priority</th><th>Status</th><th>Last Updated</th></tr></thead>
+          <tbody>
+            <tr><td class="ticket-id">#1008</td><td>Juan Dela Cruz</td><td>Peripheral Device Issue</td><td>My headset isn't working.</td><td>Johanna</td><td><span class="priority-badge priority-low">Low</span></td><td>New</td><td class="time-muted">9 mins ago</td></tr>
+            <tr><td class="ticket-id">#1007</td><td>Princess</td><td>System Issues</td><td>Locked Account AFC</td><td>Johanna</td><td><span class="priority-badge priority-high"><span class="dot"></span>High</span></td><td>New</td><td class="time-muted">30 mins ago</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <div id="reports-view" class="container-fluid px-5 mt-4 view-section d-none">
+      <div class="reports-filter-container">
+        <div class="date-input-group">
+          <span class="date-box">Date From</span>
+          <span>10 / 10 / 25</span>
+          <i class="bi bi-calendar3 fs-5 text-muted"></i>
+        </div>
+        <div class="date-input-group me-4">
+          <span class="date-box">Date To</span>
+          <span>10 / 10 / 25</span>
+          <i class="bi bi-calendar3 fs-5 text-muted"></i>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <span>Status :</span>
+          <select class="reports-select"><option>All</option></select>
+        </div>
+        <div class="d-flex align-items-center gap-2 ms-3">
+          <span>Priority :</span>
+          <select class="reports-select"><option>All</option></select>
+        </div>
+      </div>
+
+      <div class="row g-5">
+        <div class="col-lg-7 d-flex flex-column">
+          <table class="table reports-table text-center align-middle">
+            <thead>
+              <tr>
+                <th class="text-start">Ticket ID</th>
+                <th>Subject</th>
+                <th>Priority</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="text-start fw-bold">#1008</td><td>System Issues</td><td><span class="dot dot-red"></span></td><td>Open</td></tr>
+              <tr><td class="text-start fw-bold">#1007</td><td>System Issues</td><td><span class="dot dot-red"></span></td><td>Open</td></tr>
+              <tr><td class="text-start fw-bold">#1006</td><td>Hardware Issues</td><td><span class="dot dot-grey"></span></td><td>Open</td></tr>
+              <tr><td class="text-start fw-bold">#1005</td><td>Hardware Issues</td><td><span class="dot dot-grey"></span></td><td>Open</td></tr>
+              <tr><td class="text-start fw-bold">#1004</td><td>Network / Connectivity Issues</td><td><span class="dot dot-green"></span></td><td>Open</td></tr>
+              <tr><td class="text-start fw-bold">#1003</td><td>Software / Application Issues</td><td><span class="dot dot-red"></span></td><td>Open</td></tr>
+              <tr><td class="text-start fw-bold">#1002</td><td>Peripheral Device Issues</td><td><span class="dot dot-grey"></span></td><td>Open</td></tr>
+            </tbody>
+          </table>
+
+          <div class="mt-auto d-flex justify-content-end pb-4 pt-3">
+            <button class="btn btn-export d-flex align-items-center gap-2">
+              <i class="bi bi-upload"></i> Export
+            </button>
+          </div>
+        </div>
+
+        <div class="col-lg-5 d-flex flex-column gap-4">
+          <div class="dashboard-card text-center pt-4 pb-4">
+            <h5 class="fw-bold mb-4">Ticket Reports</h5>
+            <div class="chart-container" style="height: 240px;">
+              <canvas id="reportsChart"></canvas>
+            </div>
+          </div>
+          
+          <div class="dashboard-card p-4">
+            <h5 class="fw-bold mb-4 text-center">Top Issues</h5>
+            <div class="top-issues-list px-3 text-start">
+              <div class="mb-2">System Issues</div>
+              <div class="mb-2">Hardware Issues</div>
+              <div class="mb-2">Peripheral Device Issues</div>
+              <div>Network / Connectivity Issues</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="account-view" class="container-fluid px-5 mt-4 view-section d-none">
+      
+      <div class="header-action-row">
+        <h3 class="fw-bold mb-0">New Account Requests</h3>
+        <button class="btn-add-employee" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+          <i class="bi bi-plus-circle-fill"></i> Add Employee
+        </button>
+      </div>
+
+      <div class="account-wrapper-card mt-4">
+        <div class="account-cards-grid">
+          
+          <div class="account-type-card" onclick="showAccountList('Outside Client')">
+            <i class="bi bi-people-fill account-icon icon-client"></i>
+            <span>Outside Client</span>
+          </div>
+
+          <div class="account-type-card" onclick="showAccountList('Internal')">
+             <i class="bi bi-diagram-3-fill account-icon icon-internal"></i>
+            <span>Internal</span>
+          </div>
+
+          <div class="account-type-card" onclick="showAccountList('Eagle Eye')">
+            <img src="img/logo1.png" alt="Eagle Eye">
+            <span>Eagle Eye</span>
+          </div>
+
+          <div class="account-type-card" onclick="showAccountList('Aquilla')">
+            <img src="img/logo1.png" alt="Aquilla">
+            <span>Aquilla</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div id="account-list-view" class="container-fluid px-5 mt-4 view-section d-none">
+      
+      <i class="bi bi-arrow-return-left fs-3 back-btn" onclick="goBackToAccounts()"></i>
+
+      <div class="d-flex align-items-center gap-4 my-4">
+        <div id="account-list-icon-container"></div>
+        <h2 class="fw-bold mb-0" id="account-list-title">Company Name</h2>
+      </div>
+
+      <div class="d-flex align-items-center mb-5">
+        <span class="fs-5 me-4">Search</span>
+        <div class="search-input-wrapper">
+          <i class="bi bi-search text-muted"></i>
+          <input type="text" placeholder="">
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-borderless align-middle account-list-table w-100">
+          <thead>
+            <tr>
+              <th style="width: 30%;">Name</th>
+              <th style="width: 20%;">ID No.</th>
+              <th style="width: 30%;">Department</th>
+              <th class="text-center" style="width: 15%;">Status</th> 
+              <th class="text-center" style="width: 5%;"></th> 
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>Abella, Jocelyn Mae</td>
+              <td>123-456-789</td>
+              <td>Telecommunication</td>
+              <td class="text-center">
+                <span class="badge" style="background-color: #e6f4ea; color: #2e7d32; font-weight: 600; padding: 6px 12px; border-radius: 6px;">Active</span>
+              </td>
+              <td class="text-center">
+                <div class="dropdown dropdown-action">
+                  <i class="bi bi-three-dots-vertical" data-bs-toggle="dropdown"></i>
+                  <ul class="dropdown-menu dropdown-menu-end action-menu">
+                    <li><a class="dropdown-item fw-bold text-primary" href="#" data-bs-toggle="modal" data-bs-target="#manageAccountModal" onclick="populateManageModal('Abella, Jocelyn Mae', '123-456-789', 'Telecommunication', 'Active')"><i class="bi bi-pencil-square me-2"></i>Manage Account</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger fw-bold" href="#"><i class="bi bi-trash3-fill me-2"></i>Delete Account</a></li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>Adella, Samantha Rachel</td>
+              <td>789-456-123</td>
+              <td>Telecommunication</td>
+              <td class="text-center">
+                <span class="badge" style="background-color: #e6f4ea; color: #2e7d32; font-weight: 600; padding: 6px 12px; border-radius: 6px;">Active</span>
+              </td>
+              <td class="text-center">
+                <div class="dropdown dropdown-action">
+                  <i class="bi bi-three-dots-vertical" data-bs-toggle="dropdown"></i>
+                  <ul class="dropdown-menu dropdown-menu-end action-menu">
+                    <li><a class="dropdown-item fw-bold text-primary" href="#" data-bs-toggle="modal" data-bs-target="#manageAccountModal" onclick="populateManageModal('Adella, Samantha Rachel', '789-456-123', 'Telecommunication', 'Active')"><i class="bi bi-pencil-square me-2"></i>Manage Account</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger fw-bold" href="#"><i class="bi bi-trash3-fill me-2"></i>Delete Account</a></li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 25px; border: none; box-shadow: 0 15px 40px rgba(0,0,0,0.1);">
+          
+          <div class="modal-header border-0 pb-0 pt-4 px-4">
+            <h4 class="modal-title fw-bold">Add New Employee</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          
+          <div class="modal-body px-4 pb-4">
+            <form onsubmit="event.preventDefault(); alert('Account Created!'); $('#addEmployeeModal').modal('hide');">
+              
+              <div class="mb-3">
+                <label class="form-label text-muted small fw-bold mb-1">Employee ID</label>
+                <input type="text" class="form-control bg-light text-secondary fw-bold" id="generatedEmpId" readonly>
+                <small class="text-success" style="font-size: 0.75rem;"><i class="bi bi-check-circle-fill"></i> Automatically generated</small>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-muted small fw-bold mb-1">Full Name</label>
+                <input type="text" class="form-control" placeholder="e.g. John Doe" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-muted small fw-bold mb-1">Company</label>
+                <select class="form-select" required>
+                  <option value="" selected disabled>Select Company...</option>
+                  <option value="Outside Client">Outside Client</option>
+                  <option value="Internal">Internal</option>
+                  <option value="Eagle Eye">Eagle Eye</option>
+                  <option value="Aquilla">Aquilla</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-muted small fw-bold mb-1">Department</label>
+                <input type="text" class="form-control" placeholder="e.g. IT Support, HR" required>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label text-muted small fw-bold mb-1">Account Password</label>
+                  <div class="input-group">
+                    <input type="password" class="form-control" id="empPassword" required>
+                    <span class="input-group-text bg-white" style="cursor: pointer;" onclick="toggleModalPassword('empPassword', 'empEyeIcon')">
+                      <i class="bi bi-eye-slash text-muted" id="empEyeIcon"></i>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <label class="form-label text-muted small fw-bold mb-1">Confirm Password</label>
+                  <div class="input-group">
+                    <input type="password" class="form-control" id="empConfirmPassword" required>
+                    <span class="input-group-text bg-white" style="cursor: pointer;" onclick="toggleModalPassword('empConfirmPassword', 'empConfirmEyeIcon')">
+                      <i class="bi bi-eye-slash text-muted" id="empConfirmEyeIcon"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="btn w-100 fw-bold" style="background-color: #f88c0c; color: white; border-radius: 10px; padding: 12px;">
+                Create Account
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="manageAccountModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 25px; border: none; box-shadow: 0 15px 40px rgba(0,0,0,0.1);">
+          
+          <div class="modal-header border-0 pb-0 pt-4 px-4">
+            <h4 class="modal-title fw-bold">Manage Account</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          
+          <div class="modal-body px-4 pb-4">
+            <form onsubmit="event.preventDefault(); alert('Account Updated!'); $('#manageAccountModal').modal('hide');">
+              
+              <div class="mb-3">
+                <label class="form-label text-muted small fw-bold mb-1">Employee ID</label>
+                <input type="text" class="form-control bg-light text-secondary fw-bold" id="editEmpId" readonly>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-muted small fw-bold mb-1">Full Name</label>
+                <input type="text" class="form-control" id="editEmpName" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-muted small fw-bold mb-1">Department</label>
+                <input type="text" class="form-control" id="editEmpDept" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-muted small fw-bold mb-1">Account Status</label>
+                <select class="form-select" id="editEmpStatus">
+                  <option value="Active">Active</option>
+                  <option value="Archived">Archived</option>
+                  <option value="Deactivated">Deactivated</option>
+                </select>
+              </div>
+
+              <h6 class="fw-bold mt-4 mb-3">Reset Password (Optional)</h6>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <div class="input-group">
+                    <input type="password" class="form-control" id="editPassword" placeholder="New Password">
+                    <span class="input-group-text bg-white" style="cursor: pointer;" onclick="toggleModalPassword('editPassword', 'editEyeIcon2')">
+                      <i class="bi bi-eye-slash text-muted" id="editEyeIcon2"></i>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div class="input-group">
+                    <input type="password" class="form-control" id="editConfirmPassword" placeholder="Confirm Password">
+                    <span class="input-group-text bg-white" style="cursor: pointer;" onclick="toggleModalPassword('editConfirmPassword', 'editConfirmEyeIcon2')">
+                      <i class="bi bi-eye-slash text-muted" id="editConfirmEyeIcon2"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="btn w-100 fw-bold" style="background-color: #3b82f6; color: white; border-radius: 10px; padding: 12px;">
+                Save Changes
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </main> 
+</div> 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  /* =========================================
+     1. SIDEBAR LOGIC
+     ========================================= */
+  const toggleBtn = document.getElementById("toggleSidebar");
+  const sidebar = document.getElementById("sidebar");
+  const mainContent = document.getElementById("mainContent");
+
+  if (localStorage.getItem("sidebarState") === "open") {
+    sidebar.classList.add("sidebar-open");
+    mainContent.classList.add("content-shift");
+  }
+
+  toggleBtn.addEventListener("click", () => {
+    const freezeStyle = document.getElementById("sidebar-freeze");
+    if (freezeStyle) freezeStyle.remove();
+
+    sidebar.classList.toggle("sidebar-open");
+    mainContent.classList.toggle("content-shift");
+
+    if (sidebar.classList.contains("sidebar-open")) {
+      localStorage.setItem("sidebarState", "open");
+    } else {
+      localStorage.setItem("sidebarState", "closed");
+    }
+  });
+
+  /* =========================================
+     2. APP VIEW SWITCHING LOGIC
+     ========================================= */
+  function switchAppView(viewId, navId) {
+    document.getElementById('dashboard-view').classList.add('d-none');
+    document.getElementById('tickets-view').classList.add('d-none');
+    document.getElementById('reports-view').classList.add('d-none');
+    document.getElementById('account-view').classList.add('d-none');
+    document.getElementById('account-list-view').classList.add('d-none');
+    
+    document.getElementById(viewId).classList.remove('d-none');
+
+    document.getElementById('nav-dashboard').classList.remove('active');
+    document.getElementById('nav-tickets').classList.remove('active');
+    document.getElementById('nav-reports').classList.remove('active');
+    document.getElementById('nav-account').classList.remove('active');
+    
+    document.getElementById(navId).classList.add('active');
+  }
+
+  /* =========================================
+     3. ACCOUNT LIST TRANSITIONS
+     ========================================= */
+  function showAccountList(companyName) {
+    document.getElementById('account-view').classList.add('d-none');
+    document.getElementById('account-list-view').classList.remove('d-none');
+    document.getElementById('account-list-title').innerText = companyName;
+
+    const iconContainer = document.getElementById('account-list-icon-container');
+    if (companyName === 'Outside Client') {
+      iconContainer.innerHTML = '<i class="bi bi-people-fill account-list-icon icon-client"></i>';
+    } else if (companyName === 'Internal') {
+      iconContainer.innerHTML = '<i class="bi bi-diagram-3-fill account-list-icon icon-internal"></i>';
+    } else {
+      iconContainer.innerHTML = '<img src="img/logo1.png" style="height: 60px; width: auto; object-fit: contain;">';
+    }
+  }
+
+  function goBackToAccounts() {
+    document.getElementById('account-list-view').classList.add('d-none');
+    document.getElementById('account-view').classList.remove('d-none');
+  }
+
+  /* =========================================
+     4. POPULATE MANAGE ACCOUNT MODAL
+     ========================================= */
+  function populateManageModal(name, id, dept, status) {
+    document.getElementById('editEmpName').value = name;
+    document.getElementById('editEmpId').value = id;
+    document.getElementById('editEmpDept').value = dept;
+    document.getElementById('editEmpStatus').value = status;
+    
+    document.getElementById('editPassword').value = '';
+    document.getElementById('editConfirmPassword').value = '';
+  }
+
+  /* =========================================
+     5. CHART.JS INITIALIZATIONS
+     ========================================= */
+  const ctxStatus = document.getElementById('statusChart').getContext('2d');
+  new Chart(ctxStatus, {
+      type: 'doughnut',
+      data: {
+          labels: ['New', 'Pending', 'Resolved', 'Overdue'],
+          datasets: [{ data: [18, 6, 36, 3], backgroundColor: ['#fee2e2', '#ffedd5', '#fdba74', '#ca8a04'], borderWidth: 0, spacing: 6 }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, cutout: '45%', plugins: { legend: { position: 'right', labels: { usePointStyle: true, boxWidth: 8, padding: 20, font: { size: 12, family: "'Inter', sans-serif" } } } } }
+  });
+
+  const ctxPriority = document.getElementById('priorityChart').getContext('2d');
+  new Chart(ctxPriority, {
+      type: 'bar',
+      data: {
+          labels: ['Low', 'High', 'Medium'],
+          datasets: [{ data: [15, 35, 20], backgroundColor: ['#9ca3af', '#475569', '#9ca3af'], borderRadius: 4, borderSkipped: false, barThickness: 45 }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { display: false, beginAtZero: true }, x: { grid: { display: false }, ticks: { font: { size: 12, family: "'Inter', sans-serif" }, color: '#111' } } } }
+  });
+
+  const ctxReports = document.getElementById('reportsChart').getContext('2d');
+  new Chart(ctxReports, {
+      type: 'bar',
+      data: {
+          labels: ['Overdue', 'Resolved', 'Pending Tickets', 'Open Tickets'],
+          datasets: [{ data: [8, 12, 16, 20], backgroundColor: ['#5ce1e6', '#38b6ff', '#3b82f6', '#1e3a8a'], borderRadius: { topLeft: 4, topRight: 4 }, borderSkipped: false, barThickness: 45 }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: true, position: 'top', labels: { usePointStyle: true, boxWidth: 6, font: { size: 10, family: "'Inter', sans-serif" } } } }, scales: { y: { beginAtZero: true, grid: { color: '#f0f0f0' }, ticks: { font: { size: 10 }, stepSize: 5 } }, x: { grid: { display: false }, ticks: { font: { size: 10, family: "'Inter', sans-serif" } } } } }
+  });
+
+  /* =========================================
+     6. MODAL UTILITIES
+     ========================================= */
+  const addEmployeeModalElement = document.getElementById('addEmployeeModal');
+  const empIdInput = document.getElementById('generatedEmpId');
+
+  if (addEmployeeModalElement) {
+    addEmployeeModalElement.addEventListener('show.bs.modal', event => {
+      const randomId = Math.floor(10000 + Math.random() * 90000);
+      empIdInput.value = 'EMP-' + randomId;
+    });
+  }
+
+  function toggleModalPassword(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    
+    if (input.type === "password") {
+      input.type = "text";
+      icon.classList.remove("bi-eye-slash");
+      icon.classList.add("bi-eye", "text-primary");
+      icon.classList.remove("text-muted");
+    } else {
+      input.type = "password";
+      icon.classList.remove("bi-eye", "text-primary");
+      icon.classList.add("bi-eye-slash", "text-muted");
+    }
+  }
+</script>
+
+</body>
+</html>
